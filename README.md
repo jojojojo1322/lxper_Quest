@@ -20,6 +20,6 @@ react router dom
 
 ### 학생 일 경우
 
-- [x] 문제 CRUD 불가능
+- [x] 문제 CUD 불가능
 - [x] localStorage에 맞힌 문제 / 틀린 문제
 - [x] 푼 문제 보기 페이지 구현
