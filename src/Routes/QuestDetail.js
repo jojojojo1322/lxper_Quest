@@ -1,24 +1,72 @@
-import React from "react";
+import React, { Component } from "react";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
-class QuestDetail extends React.Component {
+class QuestDetail extends Component {
   state = {
-    questions: [],
+    questDetail: [],
   };
 
-  getAuth = async () => {
-    const quest = await axios.get(`/api/questions`);
-    console.log(quest);
-    this.setState({ questions: quest });
+  getQuestDetail = async () => {
+    try {
+      const id = this.props.match.params.id;
+      const questDetail = await axios.get(`/api/questions/${id}`, {
+        headers: { Auth: `JWT ${localStorage.getItem("jwt")}` },
+      });
+      console.log(questDetail);
+      console.log(questDetail.data);
+      this.setState({ questDetail: questDetail.data });
+    } catch (e) {
+      alert("데이터 조회에 실패했습니다.");
+      console.log(e);
+    }
+  };
+
+  handleSolve = (e) => {
+    console.log(e.target.value);
+    console.log(this.state.questDetail);
+    var select = e.target.value;
+    var answer = this.state.questDetail.answer;
+    console.log(select, answer);
+    if (String(select) === String(answer)) {
+      console.log("정답");
+      alert("정답");
+    } else {
+      alert("오답");
+    }
   };
 
   componentDidMount() {
-    this.getAuth();
+    this.getQuestDetail();
   }
 
   render() {
-    const quest = this.state.questions;
-    return <div></div>;
+    const questDetail = this.state.questDetail;
+    return (
+      <div>
+        <h1>{questDetail.direction}</h1>
+        <h1>{questDetail.content}</h1>
+        <tbody>
+          <tr>
+            {questDetail.choices
+              ? questDetail.choices.map((current, index) => {
+                  return (
+                    <td>
+                      <input
+                        type="radio"
+                        key={index}
+                        value={index}
+                        onClick={this.handleSolve}
+                      />
+                      {current}
+                    </td>
+                  );
+                })
+              : ""}
+          </tr>
+        </tbody>
+      </div>
+    );
   }
 }
 

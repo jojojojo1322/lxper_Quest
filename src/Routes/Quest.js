@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Redirect, Link } from "react-router-dom";
 
 class Quest extends Component {
   state = {
@@ -8,7 +9,9 @@ class Quest extends Component {
 
   getQuest = async () => {
     try {
-      const quest = await axios.get(`/api/questions`);
+      const quest = await axios.get(`/api/questions`, {
+        headers: { Auth: `JWT ${localStorage.getItem("jwt")}` },
+      });
       console.log(quest);
       this.setState({ quest: quest.data });
     } catch (e) {
@@ -36,15 +39,23 @@ class Quest extends Component {
             return (
               <tbody key={quest.id}>
                 <tr>
-                  <td>{quest.number}</td>
+                  <td>
+                    <a
+                      href={"http://localhost:3000/#/quest/detail/" + quest.id}
+                    >
+                      {quest.number}
+                    </a>
+                  </td>
                   <td>{quest.direction}</td>
                 </tr>
               </tbody>
             );
           })}
         </table>
-        {localStorage.getItem("role") === true ? (
-          <button href="#/questedit">문제 출제</button>
+        {localStorage.getItem("role") === "true" ? (
+          <Link to="/quest/edit">
+            <button>문제 출제</button>
+          </Link>
         ) : (
           ""
         )}

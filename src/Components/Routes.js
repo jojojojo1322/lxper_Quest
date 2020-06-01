@@ -10,8 +10,8 @@ const LoggedInRoutes = () => (
   <Switch>
     <Route exact path="/" component={Auth} />
     <Route exact path="/quest" component={Quest} />
-    <Route path="/quset/edit" component={QuestEdit} />
-    <Route path="/quest/detail" component={QuestDetail} />
+    <Route path="/quest/edit" component={QuestEdit} />
+    <Route path="/quest/detail/:id" component={QuestDetail} />
   </Switch>
 );
 

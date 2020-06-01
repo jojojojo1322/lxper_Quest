@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 class Auth extends React.Component {
   state = {
@@ -27,8 +28,10 @@ class Auth extends React.Component {
       }
     );
     console.log(isLogin);
-    if (isLogin.data.success === true) {
+    if (isLogin.statusText === "OK") {
       this.setState({ isLogin: true });
+      console.log(`${isLogin.data.jwt}`);
+      localStorage.setItem("jwt", isLogin.data.jwt);
       this.handleRole();
     }
   };
@@ -42,9 +45,7 @@ class Auth extends React.Component {
     return (
       <div>
         {Login ? (
-          <div>
-            <h1>로그인 성공</h1>
-          </div>
+          <Redirect to="/quest" />
         ) : (
           <div>
             <h1>로그인 실패</h1>
