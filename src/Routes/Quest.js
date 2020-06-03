@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Quest extends Component {
   state = {
     quest: [],
+    number: 0,
   };
 
   getQuest = async () => {
@@ -12,11 +13,20 @@ class Quest extends Component {
       const quest = await axios.get(`/api/questions`, {
         headers: { Auth: `JWT ${localStorage.getItem("jwt")}` },
       });
-      console.log(quest);
-      this.setState({ quest: quest.data });
+      this.setState({ quest: quest.data, number: quest.data.length });
     } catch (e) {
       alert("데이터 조회에 실패했습니다.");
-      console.log(e);
+    }
+  };
+
+  handleDelete = async (id) => {
+    try {
+      await axios.delete(`api/questions/${id}`, {
+        headers: { Auth: `JWT ${localStorage.getItem("jwt")}` },
+      });
+      this.props.history.go();
+    } catch (err) {
+      alert("실패");
     }
   };
 
@@ -25,7 +35,8 @@ class Quest extends Component {
   }
 
   render() {
-    const quest = this.state.quest;
+    const { quest, number } = this.state;
+
     return (
       <div>
         <table>
@@ -41,19 +52,39 @@ class Quest extends Component {
                 <tr>
                   <td>
                     <a
-                      href={"http://localhost:3000/#/quest/detail/" + quest.id}
+                      href={`http://localhost:3000/#/quest/detail/${quest.id}`}
                     >
                       {quest.number}
                     </a>
                   </td>
                   <td>{quest.direction}</td>
+                  <td>
+                    {localStorage.getItem("role") === "true" ? (
+                      <div>
+                        <a
+                          href={`http://localhost:3000/#/quest/edit/${quest.id}`}
+                        >
+                          <button>수정</button>
+                        </a>
+                        <button onClick={() => this.handleDelete(quest.id)}>
+                          삭제
+                        </button>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </td>
                 </tr>
               </tbody>
             );
           })}
         </table>
         {localStorage.getItem("role") === "true" ? (
-          <Link to="/quest/edit">
+          <Link
+            to={{
+              pathname: `/quest/create/${number}`,
+            }}
+          >
             <button>문제 출제</button>
           </Link>
         ) : (

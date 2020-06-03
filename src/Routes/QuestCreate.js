@@ -1,10 +1,9 @@
 import React from "react";
 import axios from "axios";
 
-class QuestEdit extends React.Component {
+class QuestCreate extends React.Component {
   state = {
-    id: "",
-    number: 0,
+    number: this.props.match.params.number,
     direction: "",
     content: "",
     choices: [],
@@ -18,6 +17,7 @@ class QuestEdit extends React.Component {
 
   handleDeleteRow = (index) => {
     this.state.choices.splice(index, 1);
+
     this.setState({ choices: this.state.choices });
   };
 
@@ -38,37 +38,11 @@ class QuestEdit extends React.Component {
     this.setState({ choices: this.state.choices });
   }
 
-  getQuest = async () => {
-    try {
-      const id = this.props.match.params.id;
-      const res = await axios
-        .get(`/api/questions/${id}`, {
-          headers: { Auth: `JWT ${localStorage.getItem("jwt")}` },
-        })
-        .then((res) => {
-          return res.data;
-        });
-      this.setState({ id: id });
-      this.setState({ number: res.number });
-      this.setState({ direction: res.direction });
-      this.setState({ content: res.content });
-      this.setState({ choices: res.choices });
-      this.setState({ answer: res.answer });
-      console.log(this.state.answer);
-    } catch (e) {
-      alert("데이터 조회에 실패했습니다.");
-    }
-  };
-
-  componentDidMount() {
-    this.getQuest();
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
     axios
       .post(
-        `/api/questions/${this.state.id}`,
+        `/api/questions`,
         {
           number: parseInt(this.state.number),
           direction: this.state.direction,
@@ -93,12 +67,11 @@ class QuestEdit extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <h1>문제수정</h1>
+        <h1>문제출제</h1>
         <label>
           <input
             type="text"
             placeholder="제목"
-            value={this.state.direction}
             name="direction"
             onChange={this.handleChange}
             required
@@ -109,7 +82,6 @@ class QuestEdit extends React.Component {
           <input
             type="text"
             placeholder="내용"
-            value={this.state.content}
             name="content"
             onChange={this.handleChange}
             required
@@ -146,4 +118,4 @@ class QuestEdit extends React.Component {
   }
 }
 
-export default QuestEdit;
+export default QuestCreate;

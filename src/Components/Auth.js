@@ -16,7 +16,8 @@ class Auth extends React.Component {
     } else {
       localStorage.setItem("role", false);
     }
-    console.log(localStorage.getItem("role"));
+    localStorage.setItem("TrueQuest", JSON.stringify([]));
+    localStorage.setItem("FalseQuest", JSON.stringify([]));
   };
 
   postAuth = async () => {
@@ -27,10 +28,8 @@ class Auth extends React.Component {
         withCredentials: true,
       }
     );
-    console.log(isLogin);
     if (isLogin.statusText === "OK") {
       this.setState({ isLogin: true });
-      console.log(`${isLogin.data.jwt}`);
       localStorage.setItem("jwt", isLogin.data.jwt);
       this.handleRole();
     }
