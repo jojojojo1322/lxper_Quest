@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import "./QuestDetail.css";
 
 class QuestDetail extends Component {
   state = {
@@ -68,40 +69,42 @@ class QuestDetail extends Component {
     const { questDetail, id } = this.state;
 
     return (
-      <div>
-        <h1>{questDetail.direction}</h1>
-        <h1>{questDetail.content}</h1>
-        <tbody>
-          <tr>
-            {questDetail.choices
-              ? questDetail.choices.map((current, index) => {
-                  return (
-                    <td key={index}>
-                      <input
-                        type="radio"
-                        key={index}
-                        value={index}
-                        name="choice"
-                        onClick={(e) => this.handleSolve(e, questDetail)}
-                      />
-                      {current}
-                    </td>
-                  );
-                })
-              : ""}
-          </tr>
-        </tbody>
-        {localStorage.getItem("role") === "true" ? (
-          <div>
-            <a href={`http://localhost:3000/#/quest/edit/${id}`}>
-              <button>수정</button>
-            </a>
-            <button onClick={() => this.handleDelete(id)}>삭제</button>
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
+      <section className="container">
+        <div className="quest">
+          <tbody>
+            <tr className="title">{questDetail.direction}</tr>
+            <tr className="content">{questDetail.content}</tr>
+            <tr className="choices">
+              {questDetail.choices
+                ? questDetail.choices.map((current, index) => {
+                    return (
+                      <td key={index}>
+                        <input
+                          type="radio"
+                          key={index}
+                          value={index}
+                          name="choice"
+                          onClick={(e) => this.handleSolve(e, questDetail)}
+                        />
+                        {current}
+                      </td>
+                    );
+                  })
+                : ""}
+            </tr>
+          </tbody>
+          {localStorage.getItem("role") === "true" ? (
+            <div>
+              <a href={`http://localhost:3000/#/quest/edit/${id}`}>
+                <button>수정</button>
+              </a>
+              <button onClick={() => this.handleDelete(id)}>삭제</button>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+      </section>
     );
   }
 }

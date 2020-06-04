@@ -2,11 +2,11 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 
 import Auth from "./Auth";
-import Quest from "../Routes/Quest";
-import QuestCreate from "../Routes/QuestCreate";
-import QuestDetail from "../Routes/QuestDetail";
-import QuestEdit from "../Routes/QuestEdit";
-import QuestWrong from "../Routes/QuestWrong";
+import Quest from "../Routes/Quest/Quest";
+import QuestCreate from "../Routes/QuestCreate/QuestCreate";
+import QuestDetail from "../Routes/QuestDetail/QuestDetail";
+import QuestEdit from "../Routes/QuestEdit/QuestEdit";
+import QuestWrong from "../Routes/Quest/QuestWrong";
 
 const LoggedInRoutes = () => (
   <Switch>
