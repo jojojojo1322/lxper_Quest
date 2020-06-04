@@ -9,8 +9,10 @@ class Auth extends React.Component {
     JWT: "",
   };
 
+  // 로그인시 출제자인지 아닌지를 구별 한 뒤 역할 부여
+  // 출제자 학생 상관 없이 정답/오답 로컬저장소에 빈배열 삽입
   handleRole = () => {
-    const role = window.confirm("선생님 이신가요?");
+    const role = window.confirm("출제자 이신가요?");
     if (role) {
       localStorage.setItem("role", true);
     } else {
@@ -20,6 +22,7 @@ class Auth extends React.Component {
     localStorage.setItem("FalseQuest", JSON.stringify([]));
   };
 
+  // 인증되면 로컬저장소에 jwt 삽입
   postAuth = async () => {
     const isLogin = await axios.post(
       `/auth/${this.state.API_KEY}`,

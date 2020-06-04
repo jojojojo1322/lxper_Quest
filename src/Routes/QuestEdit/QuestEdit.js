@@ -12,33 +12,39 @@ class QuestEdit extends React.Component {
     answer: 0,
   };
 
+  // choice 선택지 추가
   handleAddRow = (e) => {
     e.preventDefault();
     this.setState({ choices: [...this.state.choices, ""] });
   };
 
+  // choice 선택지 라인 삭제
   handleDeleteRow = (index) => {
     this.state.choices.splice(index, 1);
     this.setState({ choices: this.state.choices });
   };
 
-  handlecheck = async (e) => {
+  // 선택한 radio 버튼 answer 항목 들어감
+  handleAnswer = async (e) => {
     const checked = e.target.parentNode.id;
     await this.setState({ answer: checked });
   };
 
+  // 각각의 데이터 삽입
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
 
+  // 각 선택지 value값 삽입
   handleChangeChoices(e, index) {
     this.state.choices[index] = e.target.value;
 
     this.setState({ choices: this.state.choices });
   }
 
+  // 수정할 데이터 가져와 뿌리기
   getQuest = async () => {
     try {
       const id = this.props.match.params.id;
@@ -61,10 +67,12 @@ class QuestEdit extends React.Component {
     }
   };
 
+  // render된 다음 바로 데이터 가져오기 위해 사용
   componentDidMount() {
     this.getQuest();
   }
 
+  // 수정된 데이터 post 메소드로 집어넣기
   handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -114,8 +122,8 @@ class QuestEdit extends React.Component {
               <label for="content">내용</label>
             </div>
             <div class="col-75">
-              <input
-                type="text"
+              <textarea
+                className="content"
                 placeholder="내용"
                 value={this.state.content}
                 name="content"
@@ -131,7 +139,7 @@ class QuestEdit extends React.Component {
                     <div key={index} id={index} class="col-75">
                       <input
                         type="radio"
-                        onClick={this.handlecheck}
+                        onClick={this.handleAnswer}
                         name="answer"
                       />
                       <input

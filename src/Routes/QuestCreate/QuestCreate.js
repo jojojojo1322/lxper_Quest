@@ -11,34 +11,40 @@ class QuestCreate extends React.Component {
     answer: 0,
   };
 
+  // choice 선택지 추가
   handleAddRow = (e) => {
     e.preventDefault();
     this.setState({ choices: [...this.state.choices, ""] });
   };
 
+  // choice 선택지 라인 삭제
   handleDeleteRow = (index) => {
     this.state.choices.splice(index, 1);
 
     this.setState({ choices: this.state.choices });
   };
 
+  // 선택한 radio 버튼 answer 항목 들어감
   handleAnswer = async (e) => {
     const checked = e.target.parentNode.id;
     await this.setState({ answer: checked });
   };
 
+  // 각각의 데이터 삽입
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
 
+  // 각 선택지 value값 삽입
   handleChangeChoices(e, index) {
     this.state.choices[index] = e.target.value;
 
     this.setState({ choices: this.state.choices });
   }
 
+  // 데이터 post 메소드로 집어넣기
   handleSubmit = (e) => {
     e.preventDefault();
     let number = parseInt(this.state.number) + 1;

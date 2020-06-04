@@ -7,7 +7,9 @@ class QuestWrong extends Component {
   };
 
   render() {
+    // 인증할 필요 없이 오답리스트에서 아이디를 꺼내옴
     const quest = JSON.parse(localStorage.getItem("FalseQuest"));
+
     return (
       <section className="container">
         <div className="quest">

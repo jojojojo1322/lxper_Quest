@@ -10,6 +10,7 @@ class QuestDetail extends Component {
     wrong: [],
   };
 
+  // 데이터 내용 가져와 뿌리기
   getQuestDetail = async () => {
     try {
       const id = this.props.match.params.id;
@@ -23,9 +24,10 @@ class QuestDetail extends Component {
     }
   };
 
+  // 문제 radio 클릭시 alert로 바로 피드백 후 right/wrong save함수 호출
   handleSolve = (e, questDetail) => {
-    var select = e.target.value;
-    var answer = this.state.questDetail.answer;
+    let select = e.target.value;
+    let answer = this.state.questDetail.answer;
 
     if (String(select) === String(answer)) {
       alert("정답");
@@ -38,6 +40,7 @@ class QuestDetail extends Component {
     }
   };
 
+  // 출제자가 삭제버튼 클릭시 바로 삭제 기능
   handleDelete = async (id) => {
     try {
       await axios.delete(`api/questions/${id}`, {
@@ -49,12 +52,14 @@ class QuestDetail extends Component {
     }
   };
 
+  // 선택한 문제가 정답일시 로컬저장소 정답배열에 삽입
   handleRightSave(questDetail) {
     let right = JSON.parse(localStorage.getItem("TrueQuest"));
     right = right.concat(questDetail);
     localStorage.setItem("TrueQuest", JSON.stringify(right));
   }
 
+  // 선택한 문제가 오답일시 로컬저장소 오답배열에 삽입
   handleWrongSave(questDetail) {
     let wrong = JSON.parse(localStorage.getItem("FalseQuest"));
     wrong = wrong.concat(questDetail);
@@ -93,6 +98,8 @@ class QuestDetail extends Component {
                 : ""}
             </tr>
           </tbody>
+
+          {/* 출제자일시 화면에 버튼 띄우기 */}
           {localStorage.getItem("role") === "true" ? (
             <div>
               <a href={`http://localhost:3000/#/quest/edit/${id}`}>

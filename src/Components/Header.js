@@ -7,7 +7,6 @@ function Header() {
   return (
     <div className="nav">
       <Link to="/quest">전체문제 </Link>
-
       <Link to="/quest/wrong">틀린문제</Link>
     </div>
   );
