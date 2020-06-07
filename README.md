@@ -1,6 +1,7 @@
 # 프로젝트 실행
 
 - git clone https://github.com/jojojojo1322/lxper_Quest
+- cd lxper_Quest
 - yarn
 - yarn start
 
